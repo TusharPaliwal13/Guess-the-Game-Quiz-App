@@ -8,3 +8,13 @@
 * **Restart Functionality:** Easily restart the quiz from the results page.
 * **Animated Background:** A subtle, mesmerizing "star-like" particle animation creates an immersive and polished visual experience throughout the application.
 * **Responsive Design:** Optimized for various screen sizes, ensuring a great experience on desktop and mobile devices.
+
+
+💻 Technologies Used
+
+* **React.js:** Core JavaScript library for building user interfaces.
+* **JavaScript (ES6+):** For all game logic and interactivity.
+* **HTML5:** Structuring the web content.
+* **CSS3:** Custom styling and animations.
+* **Tailwind CSS:** A utility-first CSS framework for rapid and consistent styling.
+* **Vite:** (Likely used if you created the React app recently) A fast build tool for modern web projects.
