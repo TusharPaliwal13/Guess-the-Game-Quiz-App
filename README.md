@@ -1,12 +1,10 @@
-# React + Vite
+🌟 Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* **Interactive Quiz Flow:** Smooth transitions between the landing page, active quiz, and results screen.
+* **Dynamic Question Display:** Questions are rendered dynamically, allowing for easy expansion of quiz content.
+* **Timer Per Question:** A 10-second timer adds an exciting challenge, automatically advancing to the next question upon expiry.
+* **Real-time Score Tracking:** Your score updates instantly with each correct answer.
+* **Personalized Feedback:** Get a custom message at the end based on your performance.
+* **Restart Functionality:** Easily restart the quiz from the results page.
+* **Animated Background:** A subtle, mesmerizing "star-like" particle animation creates an immersive and polished visual experience throughout the application.
+* **Responsive Design:** Optimized for various screen sizes, ensuring a great experience on desktop and mobile devices.
