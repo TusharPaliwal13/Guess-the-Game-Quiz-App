@@ -1,20 +1,14 @@
-import React, { useState, useEffect, Fragment } from 'react'; // Import Fragment
-import questions from './components/questions'; // Assuming this path is correct
-import QuestionCard from './components/QuestionCard'; // Assuming this path is correct
+import React, { useState, useEffect, Fragment } from 'react';
+import questions from './components/questions'; // Update path if needed
+import QuestionCard from './components/QuestionCard'; // Update path if needed
 
 function App() {
-  // State to manage the current question index
   const [currentIndex, setCurrentIndex] = useState(0);
-  // State to track the user's score
   const [score, setScore] = useState(0);
-  // State for the timer on each question
   const [timer, setTimer] = useState(10);
-  // State to control whether the quiz has started or the landing page is shown
   const [hasStarted, setHasStarted] = useState(false);
-  // State to store pre-generated styles for particles to ensure fixed initial positions
   const [particleData, setParticleData] = useState([]);
 
-  // useEffect hook to generate particle styles only once on component mount
   useEffect(() => {
     const generatedData = Array.from({ length: 50 }).map(() => ({
       top: `${Math.random() * 100}%`,
@@ -23,61 +17,45 @@ function App() {
       animationDuration: `${2 + Math.random() * 3}s`,
     }));
     setParticleData(generatedData);
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
-  // useEffect hook for timer logic
   useEffect(() => {
-    // Only run timer if the quiz has started and there are questions left
-    if (!hasStarted || currentIndex >= questions.length) {
-      return; // Stop timer if quiz hasn't started or is finished
-    }
+    if (!hasStarted || currentIndex >= questions.length) return;
 
-    // Set up an interval to decrement the timer every second
     const interval = setInterval(() => {
       setTimer((prevTimer) => {
-        // If timer reaches 1, move to the next question and reset timer
         if (prevTimer === 1) {
           setCurrentIndex((prev) => prev + 1);
-          return 10; // Reset timer for the next question
+          return 10;
         }
-        // Otherwise, just decrement the timer
         return prevTimer - 1;
       });
-    }, 1000); // Interval of 1 second
+    }, 1000);
 
-    // Cleanup function to clear the interval when the component unmounts
-    // or when currentIndex/hasStarted changes
     return () => clearInterval(interval);
-  }, [currentIndex, hasStarted]); // Dependencies: re-run effect if currentIndex or hasStarted changes
+  }, [currentIndex, hasStarted]);
 
-  // Function to handle answer selection
   const handleAnswer = (isCorrect) => {
-    // If the answer is correct, increment the score
-    if (isCorrect) {
-      setScore(score + 1);
-    }
-    // Move to the next question
+    if (isCorrect) setScore(score + 1);
     setCurrentIndex(currentIndex + 1);
-    // Reset the timer for the new question
     setTimer(10);
   };
 
-  // Render the landing page if the quiz hasn't started
   if (!hasStarted) {
     return (
-      <Fragment> {/* Use Fragment as the root to allow multiple top-level elements */}
-        {/* Tailwind CSS CDN for styling */}
+      <Fragment>
         <script src="https://cdn.tailwindcss.com"></script>
-        {/* Coolvetica Font */}
         <link href="https://fonts.cdnfonts.com/css/coolvetica-2" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+
+        
         <style>
           {`
             @import url('https://fonts.cdnfonts.com/css/coolvetica-2');
             body {
               font-family: 'Coolvetica', sans-serif;
-              overflow: hidden; /* Prevent scrollbar due to animation */
+              overflow: hidden;
             }
-            /* Keyframes for the particle floating animation, including centering */
             @keyframes particleMove {
               0% { transform: translate(-50%, -50%) translate(0px, 0px); }
               100% { transform: translate(-50%, -50%) translate(20px, 20px); }
@@ -88,13 +66,11 @@ function App() {
               height: 6px;
               background-color: rgba(255, 255, 255, 0.1);
               border-radius: 50%;
-              /* Apply animation using CSS variables for duration and delay */
               animation: particleMove var(--animation-duration) infinite alternate var(--animation-delay);
             }
           `}
         </style>
         <div className="relative min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white p-4">
-          {/* Create particle background using pre-generated data */}
           {particleData.map((data, i) => (
             <div
               key={i}
@@ -107,16 +83,19 @@ function App() {
               }}
             ></div>
           ))}
+          <h1 className="text-8xl font-extrabold text-green-400 animate-pulse mb-30">
+            React - a - Shot
+          </h1>
           <div className="w-full max-w-xl bg-gray-800 rounded-xl shadow-lg p-8 text-center relative z-10">
-            <h1 className="text-5xl font-extrabold mb-6 text-green-400 animate-pulse">
-              Guess the Game!
-            </h1>
-            <p className="text-xl mb-8 text-gray-300">
-              Test your knowledge of video games. How many can you guess correctly?
+            <p className="text-2xl font-semibold mb-6 text-gray-300">
+              Guess the Game, One Shot at a Time!
+            </p>
+            <p className="text-xl mb-8 text-gray-400">
+              Test your knowledge of video games from just a single screenshot.
             </p>
             <button
-              onClick={() => setHasStarted(true)} // Set hasStarted to true to begin the quiz
-              className="px-10 py-4 bg-blue-600 text-white text-2xl  rounded-full hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-lg"
+              onClick={() => setHasStarted(true)}
+              className="px-10 py-4 bg-blue-600 text-white text-2xl rounded-full hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-lg"
             >
               Start Quiz
             </button>
@@ -126,7 +105,6 @@ function App() {
     );
   }
 
-  // Render the quiz finished screen if all questions have been answered
   if (currentIndex >= questions.length) {
     let feedbackMessage = '';
     const percentage = (score / questions.length) * 100;
@@ -142,19 +120,16 @@ function App() {
     }
 
     return (
-      <Fragment> {/* Use Fragment as the root to allow multiple top-level elements */}
-        {/* Tailwind CSS CDN for styling */}
+      <Fragment>
         <script src="https://cdn.tailwindcss.com"></script>
-        {/* Coolvetica Font */}
         <link href="https://fonts.cdnfonts.com/css/coolvetica-2" rel="stylesheet" />
         <style>
           {`
             @import url('https://fonts.cdnfonts.com/css/coolvetica-2');
             body {
               font-family: 'Coolvetica', sans-serif;
-              overflow: hidden; /* Prevent scrollbar due to animation */
+              overflow: hidden;
             }
-            /* Keyframes for the particle floating animation, including centering */
             @keyframes particleMove {
               0% { transform: translate(-50%, -50%) translate(0px, 0px); }
               100% { transform: translate(-50%, -50%) translate(20px, 20px); }
@@ -165,13 +140,11 @@ function App() {
               height: 6px;
               background-color: rgba(255, 255, 255, 0.1);
               border-radius: 50%;
-              /* Apply animation using CSS variables for duration and delay */
               animation: particleMove var(--animation-duration) infinite alternate var(--animation-delay);
             }
           `}
         </style>
         <div className="relative min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white p-4">
-          {/* Create particle background using pre-generated data */}
           {particleData.map((data, i) => (
             <div
               key={i}
@@ -189,17 +162,15 @@ function App() {
             <p className="text-2xl mb-6 text-gray-300">
               Your score: <span className="text-green-300">{score}</span> / {questions.length}
             </p>
-            {/* Score-based comment */}
             <p className="text-xl mb-8 text-yellow-300">
               {feedbackMessage}
             </p>
             <button
               onClick={() => {
-                // Reset all states to restart the quiz
                 setCurrentIndex(0);
                 setScore(0);
                 setTimer(10);
-                setHasStarted(false); // Go back to the landing page
+                setHasStarted(false);
               }}
               className="px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-md"
             >
@@ -211,21 +182,17 @@ function App() {
     );
   }
 
-  // Render the quiz itself
   return (
-    <Fragment> {/* Use Fragment as the root to allow multiple top-level elements */}
-      {/* Tailwind CSS CDN for styling */}
+    <Fragment>
       <script src="https://cdn.tailwindcss.com"></script>
-      {/* Coolvetica Font */}
       <link href="https://fonts.cdnfonts.com/css/coolvetica-2" rel="stylesheet" />
       <style>
         {`
           @import url('https://fonts.cdnfonts.com/css/coolvetica-2');
           body {
             font-family: 'Coolvetica', sans-serif;
-            overflow: hidden; /* Prevent scrollbar due to animation */
+            overflow: hidden;
           }
-          /* Keyframes for the particle floating animation, including centering */
           @keyframes particleMove {
             0% { transform: translate(-50%, -50%) translate(0px, 0px); }
             100% { transform: translate(-50%, -50%) translate(20px, 20px); }
@@ -236,13 +203,11 @@ function App() {
             height: 6px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            /* Apply animation using CSS variables for duration and delay */
             animation: particleMove var(--animation-duration) infinite alternate var(--animation-delay);
           }
         `}
       </style>
       <div className="relative min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
-        {/* Create particle background using pre-generated data */}
         {particleData.map((data, i) => (
           <div
             key={i}
@@ -255,6 +220,11 @@ function App() {
             }}
           ></div>
         ))}
+
+        <h1 className="text-6xl font-extrabold text-green-400 mb-6" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
+          React - a - Shot
+        </h1>
+
         <div className="w-full max-w-xl bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 relative z-10">
           <div className="flex justify-between items-center mb-4">
             <div className="text-lg text-gray-400">
@@ -265,7 +235,6 @@ function App() {
             </div>
           </div>
 
-          {/* Progress Bar */}
           <div className="w-full bg-gray-700 rounded-full h-4 mb-6 overflow-hidden">
             <div
               className="bg-green-500 h-full rounded-full transition-all duration-300 ease-out"
@@ -275,7 +244,6 @@ function App() {
             />
           </div>
 
-          {/* Conditionally render QuestionCard only if the current question exists */}
           {questions?.[currentIndex] && (
             <QuestionCard
               question={questions?.[currentIndex]}
